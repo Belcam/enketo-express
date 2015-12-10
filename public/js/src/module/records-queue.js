@@ -8,6 +8,7 @@ var store = require( './store' );
 var connection = require( './connection' );
 var gui = require( './gui' );
 var settings = require( './settings' );
+var exporter = require( './exporter' );
 var t = require( './translator' );
 var $ = require( 'jquery' );
 
@@ -216,6 +217,10 @@ function uploadQueue() {
     }
 }
 
+function exportToZip( formTitle ) {
+    return exporter.recordsToZip( settings.enketoId, formTitle );
+}
+
 /**
  * Shows upload progress and record-specific feedback
  *
@@ -379,5 +384,6 @@ module.exports = {
     flush: flush,
     getCounterValue: getCounterValue,
     setActive: setActive,
-    uploadQueue: uploadQueue
+    uploadQueue: uploadQueue,
+    exportToZip: exportToZip
 };

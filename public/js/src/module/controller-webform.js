@@ -11,7 +11,6 @@ var Form = require( 'enketo-core' );
 var fileManager = require( './file-manager' );
 var t = require( './translator' );
 var records = require( './records-queue' );
-var exporter = require( './exporter' );
 var $ = require( 'jquery' );
 
 var form;
@@ -462,7 +461,7 @@ function _setEventHandlers() {
     } );
 
     $( '.record-list__button-bar__button.export' ).on( 'click', function() {
-        exporter.recordsToZip( settings.enketoId, form.getSurveyName() )
+        records.exportToZip( form.getSurveyName() )
             .then( function() {
                 gui.feedback( t( 'alert.export.success.msg' ) );
             } )

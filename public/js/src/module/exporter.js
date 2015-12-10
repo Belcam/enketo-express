@@ -68,7 +68,8 @@ function recordsToZip( enketoId, formTitle ) {
             }, Promise.resolve() );
         } )
         .then( function() {
-            //zip.file( 'meta.json', JSON.stringify( meta, null, 4 ) );
+            zip.file( 'meta.json', JSON.stringify( meta, null, 4 ) );
+
             content = zip.generate( {
                 type: 'blob'
             } );
@@ -78,7 +79,6 @@ function recordsToZip( enketoId, formTitle ) {
             }
         } );
 }
-
 
 function _formatDate( date ) {
     var d = new Date( date );

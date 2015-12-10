@@ -41,13 +41,11 @@ function recordsToZip( enketoId, formTitle ) {
                             };
                             // add media files to folder
                             record.files.forEach( function( file ) {
-                                tasks.push( utils.blobToDataUri( file.item )
-                                    .then( function( dataUri ) {
+                                tasks.push( utils.blobToArrayBuffer( file.item )
+                                    .then( function( arrayBuffer ) {
                                         // It's unfortunate we have to do this conversion.
                                         // In the future JSZip will probably support Blobs directly.
-                                        folder.file( file.name, dataUri, {
-                                            base64: true
-                                        } );
+                                        folder.file( file.name, arrayBuffer );
                                     } )
                                     .catch( function( error ) {
                                         // Don't let failing files prevent export from being created.

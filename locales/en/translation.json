@@ -13,7 +13,8 @@
     },
     "export": {
       "error": {
-        "heading": "Export Error"
+        "heading": "Export Error",
+        "msg": "Errors occurred during creating of the record export file. Errors: __errors__"
       },
       "success": {
         "msg": "Export file created for all records belonging to this form."

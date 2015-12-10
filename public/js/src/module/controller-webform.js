@@ -464,11 +464,11 @@ function _setEventHandlers() {
     $( '.record-list__button-bar__button.export' ).on( 'click', function() {
         exporter.recordsToZip( settings.enketoId, form.getSurveyName() )
             .then( function() {
-                gui.feedback( 'Export file created for all records belonging to this form.' );
+                gui.feedback( t( 'alert.export.success.msg' ) );
             } )
             .catch( function( error ) {
                 console.error( 'Export error', error );
-                gui.alert( 'Export error: ' + error.message );
+                gui.alert( error.message, t( 'alert.export.error.heading' ) );
             } );
     } );
 

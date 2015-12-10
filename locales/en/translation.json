@@ -11,6 +11,14 @@
       "button": "Close",
       "heading": "Alert"
     },
+    "export": {
+      "error": {
+        "heading": "Export Error"
+      },
+      "success": {
+        "msg": "Export file created for all records belonging to this form."
+      }
+    },
     "formupdated": {
       "heading": "Form Updated!",
       "msg": "A new version of this form has been downloaded. Refresh this page to load the updated version."

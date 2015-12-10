@@ -467,8 +467,9 @@ function _setEventHandlers() {
                 gui.feedback( t( 'alert.export.success.msg' ) );
             } )
             .catch( function( error ) {
-                console.error( 'Export error', error );
-                gui.alert( error.message, t( 'alert.export.error.heading' ) );
+                gui.alert( t( 'alert.export.error.msg', {
+                    errors: error.message
+                } ), t( 'alert.export.error.heading' ) );
             } );
     } );
 

@@ -543,7 +543,7 @@ recordStore = {
                     name: record.name,
                     xml: record.xml,
                     files: fileKeys,
-                    created: result.created,
+                    created: ( result && result.created ? result.created : new Date().getTime() ),
                     updated: new Date().getTime(),
                     draft: record.draft
                 } );

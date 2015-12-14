@@ -68,15 +68,24 @@ function recordsToZip( enketoId, formTitle ) {
             }, Promise.resolve() );
         } )
         .then( function() {
+            var filename = name + '_' + _formatDate( new Date() ) + '.zip';
             zip.file( 'meta.json', JSON.stringify( meta, null, 4 ) );
 
             content = zip.generate( {
                 type: 'blob'
             } );
-            saveAs( content, name + '_' + _formatDate( new Date() ) + '.zip' );
+
+            saveAs( content, filename );
+
+            content.name = filename;
+
+            return content;
+
+            /* TODO: How to output?
             if ( failures.length > 0 ) {
+                console.debug( 'throwing', failures );
                 throw new Error( failures.join( '\n' ) );
-            }
+            }*/
         } );
 }
 

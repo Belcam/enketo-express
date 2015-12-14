@@ -218,7 +218,18 @@ function uploadQueue() {
 }
 
 function exportToZip( formTitle ) {
-    return exporter.recordsToZip( settings.enketoId, formTitle );
+
+    $exportButton.prop( 'disabled', true );
+
+    return exporter.recordsToZip( settings.enketoId, formTitle )
+        .then( function( blob ) {
+            $exportButton.prop( 'disabled', false );
+            return blob;
+        } )
+        .catch( function( error ) {
+            $exportButton.prop( 'disabled', false );
+            throw error;
+        } );
 }
 
 /**

@@ -462,17 +462,14 @@ function _setEventHandlers() {
 
     $( '.record-list__button-bar__button.export' ).on( 'click', function() {
         records.exportToZip( form.getSurveyName() )
-            .then( function( blob ) {
-                // TODO use alert dialog and create link for online download alternative
+            .then( function() {
                 gui.feedback( t( 'alert.export.success.msg' ) );
-                connection.uploadAndDownloadFile( blob );
             } )
             .catch( function( error ) {
                 gui.alert( t( 'alert.export.error.msg', {
                     errors: error.message
                 } ), t( 'alert.export.error.heading' ) );
             } );
-        // TODO disable button while export is being created to avoid doubleclick
     } );
 
     $doc.on( 'click', '.record-list__records__record[data-draft="true"]', function() {

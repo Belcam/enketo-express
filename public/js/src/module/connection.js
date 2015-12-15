@@ -14,7 +14,6 @@ var CONNECTION_URL = '/connection';
 // location.search is added to pass the lang= parameter, in case this is used to override browser/system locale
 var TRANSFORM_URL = '/transform/xform' + location.search;
 var TRANSFORM_HASH_URL = '/transform/xform/hash';
-var EXPORT_URL = '/export/get';
 var SUBMISSION_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId + location.search : null;
 var INSTANCE_URL = ( settings.enketoId ) ? '/submission/' + settings.enketoIdPrefix + settings.enketoId : null;
 var MAX_SIZE_URL = ( settings.enketoId ) ? '/submission/max-size/' + settings.enketoIdPrefix + settings.enketoId : null;
@@ -96,24 +95,6 @@ function uploadRecord( record ) {
             console.debug( 'results of all batches submitted', results );
             return results[ 0 ];
         } );
-}
-
-function uploadAndDownloadFile( zipFile ) {
-    var formData = new FormData();
-
-    formData.append( 'file', zipFile, zipFile.name );
-
-    $.ajax( EXPORT_URL, {
-            type: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        } )
-        .done( function( data ) {
-            console.log( 'data', data );
-        } );
-    // TODO: add fail handler
 }
 
 /**
@@ -221,7 +202,7 @@ function _prepareFormDataArray( record ) {
         var batchPrepped;
         var fd = new FormData();
 
-        fd.append( 'xml_submission_file', xmlSubmissionBlob, 'xml_submission_file' );
+        fd.append( 'xml_submission_file', xmlSubmissionBlob );
 
         // batch with XML data
         batchPrepped = {
@@ -531,6 +512,5 @@ module.exports = {
     getFormPartsHash: getFormPartsHash,
     getMediaFile: getMediaFile,
     getExistingInstance: getExistingInstance,
-    getManifestVersion: getManifestVersion,
-    uploadAndDownloadFile: uploadAndDownloadFile
+    getManifestVersion: getManifestVersion
 };

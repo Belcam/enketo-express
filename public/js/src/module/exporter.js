@@ -79,7 +79,7 @@ function recordsToZip( enketoId, formTitle ) {
             content.name = filename;
 
             if ( failures.length > 0 ) {
-                error = new Error( failures.join( '\n' ) );
+                error = new Error( '<ul class="error-list"><li>' + failures.join( '</li><li>' ) + '</li></ul>' );
                 error.exportFile = content;
                 throw error;
             } else {

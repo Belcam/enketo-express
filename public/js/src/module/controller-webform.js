@@ -10,7 +10,6 @@ var settings = require( './settings' );
 var Form = require( 'enketo-core' );
 var fileManager = require( './file-manager' );
 var t = require( './translator' );
-var utils = require( './utils' );
 var records = require( './records-queue' );
 var $ = require( 'jquery' );
 
@@ -462,42 +461,31 @@ function _setEventHandlers() {
     } );
 
     $( '.record-list__button-bar__button.export' ).on( 'click', function() {
-        records.exportToZip( form.getSurveyName() )
-            .then( function( blob ) {
-                var downloadLink;
-                var createDownloadLink = '<p>' + t( 'alert.export.failquestion', {
-                    button: '<button id="download-export-create" class="btn btn-icon-only small"><i class="icon icon-link"> </i></button>'
-                } );
+        var createDownloadLink = '<a class="vex-dialog-link" id="download-export-create" href="#">' +
+            t( 'alert.export.alternativequestion' ) + '</a>';
 
+        records.exportToZip( form.getSurveyName() )
+            .then( function( zipFile ) {
                 // Hack for stupid Safari and iOS browsers
                 $( document ).off( 'click.export' ).one( 'click.export', '#download-export-create', function( event ) {
-                    var $lastP = $( this ).closest( 'p' ).addClass( 'hide' );
-                    event.stopImmediatePropagation();
-
-                    utils.blobToDataUri( blob )
-                        .then( function( dataUri ) {
-                            // I didn't add the translations to the language source file, 
-                            // because I think we'll probably end up using an alternative feature and remove this.
-                            // Chrome actually doesn't trust this method and won't allow it (but won't need it either).
-                            var tr = {
-                                'alert.export.alternativelink.link': 'alternative export',
-                                'alert.export.alternativelink.msg': 'Change extension of downloaded file to \'zip\''
-                            };
-                            downloadLink = '<p><a href="' + dataUri + '" download target="_blank">' +
-                                tr[ 'alert.export.alternativelink.link' ] + '</a></p>' +
-                                '<p>' + tr[ 'alert.export.alternativelink.msg' ] + '</p>';
-                            $lastP.after( downloadLink );
-                        } );
-                    return false;
+                    _handleAlternativeDownloadRequest.call( this, event, zipFile );
                 } );
 
-                gui.alert( t( 'alert.export.success.msg' ) + createDownloadLink, 'Export Created', 'info' );
+                gui.alert( t( 'alert.export.success.msg' ) + createDownloadLink, t( 'alert.export.success.heading' ), 'info' );
             } )
             .catch( function( error ) {
                 // TODO: if error.exportFile -> add alternative download method
-                gui.alert( t( 'alert.export.error.msg', {
+                var message = t( 'alert.export.error.msg', {
                     errors: error.message
-                } ), t( 'alert.export.error.heading' ) );
+                } );
+                if ( error.exportFile ) {
+                    // Hack for stupid Safari and iOS browsers
+                    $( document ).off( 'click.export' ).one( 'click.export', '#download-export-create', function( event ) {
+                        _handleAlternativeDownloadRequest.call( this, event, error.exportFile );
+                    } );
+                    message += '<p>' + t( 'alert.export.error.filecreatedmsg' ) + '</p>' + createDownloadLink;
+                }
+                gui.alert( message, t( 'alert.export.error.heading' ) );
             } );
     } );
 
@@ -535,6 +523,25 @@ function _setEventHandlers() {
     if ( settings.offline ) {
         $doc.on( 'valuechange.enketo', _autoSaveRecord );
     }
+}
+
+function _handleAlternativeDownloadRequest( event, zipFile ) {
+    var $loader;
+
+    event.preventDefault();
+
+    $loader = $( '<div class="loader-animation-small" style="margin: 10px auto 0 auto;"/>' );
+    $( event.target ).replaceWith( $loader );
+
+    connection.getDownloadUrl( zipFile )
+        .then( function( downloadUrl ) {
+            $loader.replaceWith( '<a class="vex-dialog-link" href="' + downloadUrl + '" download>' + zipFile.name + '</a>' );
+        } )
+        .catch( function( error ) {
+            gui.alert( t( 'alert.export.error.linknotcreated' ) );
+        } );
+
+    return false;
 }
 
 function _setLogoutLinkVisibility() {

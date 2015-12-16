@@ -21,6 +21,7 @@
         "basic-auth": "1.0.x",
         "body-parser": "1.x.x",
         "bristol": "0.3.x",
+        "busboy": "0.2.x",
         "compression": "1.x.x",
         "cookie-parser": "1.4.x",
         "csurf": "1.8.x",

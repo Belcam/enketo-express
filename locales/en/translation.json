@@ -12,10 +12,12 @@
       "heading": "Alert"
     },
     "export": {
+      "alternativelink": "alternative export",
       "error": {
         "heading": "Export Error",
         "msg": "Errors occurred during creating of the record export file. Errors: __errors__"
       },
+      "failquestion": "No file found? Click button for alternative.",
       "success": {
         "msg": "Export file created for all records belonging to this form."
       }

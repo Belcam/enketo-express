@@ -10,6 +10,7 @@ var settings = require( './settings' );
 var Form = require( 'enketo-core' );
 var fileManager = require( './file-manager' );
 var t = require( './translator' );
+var utils = require( './utils' );
 var records = require( './records-queue' );
 var $ = require( 'jquery' );
 
@@ -462,8 +463,25 @@ function _setEventHandlers() {
 
     $( '.record-list__button-bar__button.export' ).on( 'click', function() {
         records.exportToZip( form.getSurveyName() )
-            .then( function() {
-                gui.feedback( t( 'alert.export.success.msg' ) );
+            .then( function( blob ) {
+                var downloadLink;
+                var createDownloadLink = '<p>' + t( 'alert.export.failquestion' ) + ' => ' +
+                    '<button id="download-export-create" class="btn btn-default small"><i class="icon icon-link"> </i></button></p>';
+
+                // Hack for stupid Safari and iOS browsers
+                $( document ).off( 'click.export' ).one( 'click.export', '#download-export-create', function( event ) {
+                    var $createLinkBtn = $( this ).addClass( 'hide' );
+                    event.stopImmediatePropagation();
+
+                    utils.blobToDataUri( blob )
+                        .then( function( dataUri ) {
+                            downloadLink = '<p><a href="' + dataUri + '" download>' + t( 'alert.export.alternativelink' ) + '</a></p>';
+                            $createLinkBtn.after( downloadLink );
+                        } );
+                    return false;
+                } );
+
+                gui.alert( t( 'alert.export.success.msg' ) + createDownloadLink, 'Export Created', 'info' );
             } )
             .catch( function( error ) {
                 gui.alert( t( 'alert.export.error.msg', {

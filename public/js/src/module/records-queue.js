@@ -332,6 +332,7 @@ function _updateRecordList() {
                 $recordList.empty().append( '<li class="record-list__records--none">' + t( 'record-list.norecords' ) + '</li>' );
             } else {
                 $recordList.find( '.record-list__records--none' ).remove();
+                $exportButton.prop( 'disabled', false );
             }
 
             // remove records that no longer exist
@@ -343,8 +344,6 @@ function _updateRecordList() {
                     $rec.next( '.msg' ).addBack().remove();
                 }
             } );
-
-            $exportButton.prop( 'disabled', false );
 
             records.forEach( function( record ) {
                 // if there is at least one record not marked as draft

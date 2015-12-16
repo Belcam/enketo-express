@@ -465,18 +465,27 @@ function _setEventHandlers() {
         records.exportToZip( form.getSurveyName() )
             .then( function( blob ) {
                 var downloadLink;
-                var createDownloadLink = '<p>' + t( 'alert.export.failquestion' ) + ' => ' +
-                    '<button id="download-export-create" class="btn btn-default small"><i class="icon icon-link"> </i></button></p>';
+                var createDownloadLink = '<p>' + t( 'alert.export.failquestion', {
+                    button: '<button id="download-export-create" class="btn btn-icon-only small"><i class="icon icon-link"> </i></button>'
+                } );
 
                 // Hack for stupid Safari and iOS browsers
                 $( document ).off( 'click.export' ).one( 'click.export', '#download-export-create', function( event ) {
-                    var $createLinkBtn = $( this ).addClass( 'hide' );
+                    var $lastP = $( this ).closest( 'p' ).addClass( 'hide' );
                     event.stopImmediatePropagation();
 
                     utils.blobToDataUri( blob )
                         .then( function( dataUri ) {
-                            downloadLink = '<p><a href="' + dataUri + '" download>' + t( 'alert.export.alternativelink' ) + '</a></p>';
-                            $createLinkBtn.after( downloadLink );
+                            // I didn't add the translations to the language source file, 
+                            // because I think we'll probably end up using an alternative feature and remove this.
+                            // Chrome actually doesn't trust this method and won't allow it (but won't need it either).
+                            var tr = {
+                                'alert.export.alternativelink.link': 'alternative export',
+                                'alert.export.alternativelink.msg': 'Change extension of downloaded file to \'zip\''
+                            };
+                            downloadLink = '<p><a href="' + dataUri + '" download>' + tr[ 'alert.export.alternativelink.link' ] + '</a></p>' +
+                                '<p>' + tr[ 'alert.export.alternativelink.msg' ] + '</p>';
+                            $lastP.after( downloadLink );
                         } );
                     return false;
                 } );
@@ -484,6 +493,7 @@ function _setEventHandlers() {
                 gui.alert( t( 'alert.export.success.msg' ) + createDownloadLink, 'Export Created', 'info' );
             } )
             .catch( function( error ) {
+                // TODO: if error.exportFile -> add alternative download method
                 gui.alert( t( 'alert.export.error.msg', {
                     errors: error.message
                 } ), t( 'alert.export.error.heading' ) );

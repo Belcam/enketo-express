@@ -483,7 +483,8 @@ function _setEventHandlers() {
                                 'alert.export.alternativelink.link': 'alternative export',
                                 'alert.export.alternativelink.msg': 'Change extension of downloaded file to \'zip\''
                             };
-                            downloadLink = '<p><a href="' + dataUri + '" download>' + tr[ 'alert.export.alternativelink.link' ] + '</a></p>' +
+                            downloadLink = '<p><a href="' + dataUri + '" download target="_blank">' +
+                                tr[ 'alert.export.alternativelink.link' ] + '</a></p>' +
                                 '<p>' + tr[ 'alert.export.alternativelink.msg' ] + '</p>';
                             $lastP.after( downloadLink );
                         } );

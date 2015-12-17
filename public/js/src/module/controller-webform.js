@@ -535,7 +535,8 @@ function _handleAlternativeDownloadRequest( event, zipFile ) {
 
     connection.getDownloadUrl( zipFile )
         .then( function( downloadUrl ) {
-            $loader.replaceWith( '<a class="vex-dialog-link" href="' + downloadUrl + '" download>' + zipFile.name + '</a>' );
+            $loader.replaceWith( '<a class="vex-dialog-link" href="' + downloadUrl +
+                '" download target="_blank">' + zipFile.name + '</a>' );
         } )
         .catch( function( error ) {
             gui.alert( t( 'alert.export.error.linknotcreated' ) );

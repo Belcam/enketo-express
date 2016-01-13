@@ -58,7 +58,7 @@ function getSurvey( survey ) {
 /** 
  * Gets the hashes of an item from the cache.
  *
- * @param  {{openRosaServer: string, openRosaId: string }} survey [description]
+ * @param  {{openRosaServer: string, openRosaId: string, theme: string}} survey [description]
  * @return {[type]}        [description]
  */
 function getSurveyHashes( survey ) {
@@ -79,11 +79,10 @@ function getSurveyHashes( survey ) {
                 } else if ( !hashArr ) {
                     resolve( null );
                 } else {
-                    resolve( {
-                        formHash: hashArr[ 0 ],
-                        mediaHash: hashArr[ 1 ],
-                        xslHash: hashArr[ 2 ]
-                    } );
+                    survey.formHash = hashArr[ 0 ];
+                    survey.mediaHash = hashArr[ 1 ];
+                    survey.xslHash = hashArr[ 2 ];
+                    resolve( survey );
                 }
             } );
         }

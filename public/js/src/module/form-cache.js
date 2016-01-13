@@ -16,7 +16,6 @@ function init( survey ) {
             return get( survey );
         } )
         .then( function( result ) {
-
             if ( result ) {
                 return result;
             } else {
@@ -41,14 +40,16 @@ function remove( survey ) {
     return store.survey.remove( survey.enketoId );
 }
 
-
 function _setUpdateIntervals( survey ) {
     hash = survey.hash;
 
-    // when it's pretty certain that the form has been rendered, check for form update
+    // Check for form update upon loading.
+    // Note that for large Xforms where the XSL transformation takes more than 30 seconds, 
+    // the first update make take 20 minutes to propagate to the browser of the very first user(s) 
+    // that open the form right after the XForm update.
     setTimeout( function() {
         _updateCache( survey );
-    }, 3 * 60 * 1000 );
+    }, 30 * 1000 );
     // check for form update every 20 minutes
     setInterval( function() {
         _updateCache( survey );
@@ -119,36 +120,67 @@ function updateMedia( survey ) {
 
     survey.resources = [];
 
-    _getElementsGroupedBySrc( survey.$form ).forEach( function( elements ) {
+    _getElementsGroupedBySrc( survey.$form.add( $( '.form-header' ) ) ).forEach( function( elements ) {
         var src = elements[ 0 ].dataset.offlineSrc;
         requests.push( connection.getMediaFile( src ) );
     } );
 
-    return Promise.all( requests )
+    return Promise.all( requests.map( _reflect ) )
         .then( function( resources ) {
+            // filter out the failed requests (undefined)
+            resources = resources.filter( function( resource ) {
+                return !!resource;
+            } );
             survey.resources = resources;
             return survey;
         } )
+        // store any resources that were succesfull
         .then( store.survey.update )
-        .then( _loadMedia );
+        .then( _loadMedia )
+        .catch( function( error ) {
+            console.error( 'loadMedia failed', error );
+            // Let the flow continue. 
+            return survey;
+        } );
+}
+
+/**
+ * To be used with Promise.all if you want the results to be returned even if some 
+ * have failed. Failed tasks will return undefined.
+ *
+ * @param  {Promise} task [description]
+ * @return {*}         [description]
+ */
+function _reflect( task ) {
+    return task
+        .then( function( response ) {
+                return response;
+            },
+            function( error ) {
+                console.error( error );
+                return;
+            } );
 }
 
 function _loadMedia( survey ) {
     var resourceUrl;
     var URL = window.URL || window.webkitURL;
 
-    _getElementsGroupedBySrc( survey.$form ).forEach( function( elements ) {
+    _getElementsGroupedBySrc( survey.$form.add( $( '.form-header' ) ) ).forEach( function( elements ) {
         var src = elements[ 0 ].dataset.offlineSrc;
-
+        // TODO: For nicer loading and hiding ugly alt attribute text, 
+        // maybe add style: visibility: hidden until the src is populated?
         store.survey.resource.get( survey.enketoId, src )
             .then( function( resource ) {
-                // var srcUsedInsideRepeat;
+                if ( !resource || !resource.item ) {
+                    console.error( 'resource not found or not complete', resource );
+                    return;
+                }
                 // create a resourceURL
                 resourceUrl = URL.createObjectURL( resource.item );
                 // add this resourceURL as the src for all elements in the group
                 elements.forEach( function( element ) {
                     element.src = resourceUrl;
-                    // srcUsedInsideRepeat = srcUsedInsideRepeat || $(element).closest('.or-repeat').length > 0;
                 } );
             } );
     } );
@@ -170,14 +202,14 @@ function _getElementsGroupedBySrc( $form ) {
 
     $els.each( function() {
         if ( !urls[ this.dataset.offlineSrc ] ) {
-            var src = this.dataset.offlineSrc,
-                $group = $els.filter( function() {
-                    if ( this.dataset.offlineSrc === src ) {
-                        // remove from $els to improve performance
-                        $els = $els.not( '[data-offline-src="' + src + '"]' );
-                        return true;
-                    }
-                } );
+            var src = this.dataset.offlineSrc;
+            var $group = $els.filter( function() {
+                if ( this.dataset.offlineSrc === src ) {
+                    // remove from $els to improve performance
+                    $els = $els.not( '[data-offline-src="' + src + '"]' );
+                    return true;
+                }
+            } );
 
             urls[ src ] = true;
             groupedElements.push( $.makeArray( $group ) );
@@ -194,7 +226,7 @@ function _updateCache( survey ) {
     connection.getFormPartsHash( survey )
         .then( function( version ) {
             if ( hash === version ) {
-                console.debug( 'Cached survey is up to date!' );
+                console.debug( 'Cached survey is up to date!', hash );
             } else {
                 console.debug( 'Cached survey is outdated! old:', hash, 'new:', version );
                 return connection.getFormParts( survey )

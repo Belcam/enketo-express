@@ -8,11 +8,13 @@ var support = require( 'enketo-core/src/js/support' );
 var settings = require( './settings' );
 var printForm = require( 'enketo-core/src/js/print' );
 var t = require( './translator' );
+var sniffer = require( './sniffer' );
 var dialog = require( './vex.dialog.custom' );
 var $ = require( 'jquery' );
 require( './plugin' );
 
 var pages;
+var homeScreenGuidance;
 var updateStatus;
 var feedbackBar;
 
@@ -77,6 +79,15 @@ function setEventHandlers() {
         var msg = t( 'alert.offlinesupported.msg' );
         alert( msg, t( 'alert.offlinesupported.heading' ), 'normal' );
     } );
+
+    $( 'a.branding' ).on( 'click', function() {
+        var href = this.getAttribute( 'href' );
+        return ( !href || href === '#' ) ? false : true;
+    } );
+
+    if ( _getHomeScreenGuidance() ) {
+        $( '.form-header__button--homescreen' ).removeClass( 'hide' ).on( 'click', alertHomeScreenGuidance );
+    }
 
     $doc.on( 'xpatherror', function( ev, error ) {
         var email = settings[ 'supportEmail' ],
@@ -284,6 +295,7 @@ function prompt( content, choices, inputs ) {
 
 /**
  * Shows modal asking for confirmation to redirect to login screen
+ * 
  * @param  {string=} msg       message to show
  * @param  {string=} serverURL serverURL for which authentication is required
  */
@@ -329,6 +341,41 @@ function alertLoadErrors( loadErrors, advice ) {
         t( 'alert.loaderror.msg2', params ) +
         '</p>' + errorStringHTML, t( 'alert.loaderror.heading', params )
     );
+}
+
+function alertHomeScreenGuidance() {
+    alert( _getHomeScreenGuidance(), t( 'alert.addtohomescreen.heading' ), 'normal' );
+}
+
+function _getHomeScreenGuidance() {
+    var imageClass1;
+    var imageClass2;
+    var guidanceKey;
+    var browser = sniffer.browser;
+    var os = sniffer.os;
+
+    if ( homeScreenGuidance ) {
+        // keep calm
+    } else if ( os.isIos() && browser.isSafari() ) {
+        imageClass1 = 'ios-safari';
+        homeScreenGuidance = t( 'alert.addtohomescreen.iossafari.msg', _getHomeScreenGuidanceObj( imageClass1 ) );
+    } else if ( os.isAndroid() && browser.isChrome() ) {
+        imageClass1 = 'android-chrome';
+        homeScreenGuidance = t( 'alert.addtohomescreen.androidchrome.msg', _getHomeScreenGuidanceObj( imageClass1 ) );
+    } else if ( os.isAndroid() && browser.isFirefox() ) {
+        imageClass1 = 'android-firefox-1';
+        imageClass2 = 'android-firefox-2';
+        homeScreenGuidance = t( 'alert.addtohomescreen.androidfirefox.msg', _getHomeScreenGuidanceObj( imageClass1, imageClass2 ) );
+    }
+
+    return homeScreenGuidance;
+}
+
+function _getHomeScreenGuidanceObj( imageClass1, imageClass2 ) {
+    return {
+        image1: ( imageClass1 ) ? '<span class="' + imageClass1 + '"/>' : '',
+        image2: ( imageClass2 ) ? '<span class="' + imageClass2 + '"/>' : ''
+    };
 }
 
 /**
@@ -407,6 +454,7 @@ function getErrorResponseMsg( statusCode ) {
         '200': t( 'submission.http2xx' ) + '<br/>' + contactSupport,
         '2xx': t( 'submission.http2xx' ) + '<br/>' + contactSupport,
         '400': t( 'submission.http400' ) + '<br/>' + contactAdmin,
+        '401': t( 'submission.http401' ),
         '403': t( 'submission.http403' ) + '<br/>' + contactAdmin,
         '404': t( 'submission.http404' ),
         '4xx': t( 'submission.http4xx' ),

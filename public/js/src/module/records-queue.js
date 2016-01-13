@@ -8,6 +8,7 @@ var store = require( './store' );
 var connection = require( './connection' );
 var gui = require( './gui' );
 var settings = require( './settings' );
+var exporter = require( './exporter' );
 var t = require( './translator' );
 var $ = require( 'jquery' );
 
@@ -43,13 +44,18 @@ function get( instanceId ) {
 }
 
 /**
- * Stores a new record
+ * Stores a new record. Overwrites (media) files from auto-saved record.
  *
  * @param {*} record [description]
  * @return {Promise}
  */
 function set( record ) {
-    return store.record.set( record )
+    return getAutoSavedRecord()
+        .then( function( autoSavedRecord ) {
+            // add files from autoSavedRecord
+            record.files = autoSavedRecord.files;
+            return store.record.set( record );
+        } )
         .then( _updateRecordList );
 }
 
@@ -216,6 +222,21 @@ function uploadQueue() {
     }
 }
 
+function exportToZip( formTitle ) {
+
+    $exportButton.prop( 'disabled', true );
+
+    return exporter.recordsToZip( settings.enketoId, formTitle )
+        .then( function( blob ) {
+            $exportButton.prop( 'disabled', false );
+            return blob;
+        } )
+        .catch( function( error ) {
+            $exportButton.prop( 'disabled', false );
+            throw error;
+        } );
+}
+
 /**
  * Shows upload progress and record-specific feedback
  *
@@ -316,6 +337,7 @@ function _updateRecordList() {
                 $recordList.empty().append( '<li class="record-list__records--none">' + t( 'record-list.norecords' ) + '</li>' );
             } else {
                 $recordList.find( '.record-list__records--none' ).remove();
+                $exportButton.prop( 'disabled', false );
             }
 
             // remove records that no longer exist
@@ -327,9 +349,6 @@ function _updateRecordList() {
                     $rec.next( '.msg' ).addBack().remove();
                 }
             } );
-
-            // TODO enable export button
-            // $exportButton.prop( 'disabled', false );
 
             records.forEach( function( record ) {
                 // if there is at least one record not marked as draft
@@ -380,5 +399,6 @@ module.exports = {
     flush: flush,
     getCounterValue: getCounterValue,
     setActive: setActive,
-    uploadQueue: uploadQueue
+    uploadQueue: uploadQueue,
+    exportToZip: exportToZip
 };

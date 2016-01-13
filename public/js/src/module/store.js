@@ -128,7 +128,7 @@ function _checkSupport() {
         if ( typeof indexedDB === "object" ) {
             resolve();
         } else {
-            if ( sniffer.browser.isOnIos() ) {
+            if ( sniffer.os.isIos() ) {
                 error = new Error( t( 'store.error.iosusesafari' ) );
             } else {
                 error = new Error( t( 'store.error.notsupported' ) );
@@ -482,6 +482,7 @@ recordStore = {
                 name: record.name,
                 xml: record.xml,
                 files: fileKeys,
+                created: new Date().getTime(),
                 updated: new Date().getTime(),
                 draft: record.draft
             } )
@@ -542,6 +543,7 @@ recordStore = {
                     name: record.name,
                     xml: record.xml,
                     files: fileKeys,
+                    created: ( result && result.created ? result.created : new Date().getTime() ),
                     updated: new Date().getTime(),
                     draft: record.draft
                 } );
@@ -576,7 +578,8 @@ recordStore = {
         var files;
         var tasks = [];
 
-        return recordStore.get( instanceId )
+        return server.records.get( instanceId )
+            .then( _firstItemOnly )
             .then( function( record ) {
                 files = record.files || [];
                 files.forEach( function( fileKey ) {

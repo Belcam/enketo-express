@@ -48,6 +48,11 @@ i18n.init( {
 // make i18n apphelper available in jade templates
 i18n.registerAppHelper( app );
 
+//app.use( function(req, res, next) {
+//  req.url = '/belcam/enketo' + req.url;
+//  next();
+//});
+
 // middleware
 app.use( compression() );
 app.use( bodyParser.json() );

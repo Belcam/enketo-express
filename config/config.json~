@@ -1,11 +1,11 @@
 {
     "app name": "Enketo Smart Paper for KoBoCAT",
     "port": "8005",
-    "offline enabled": false,
+    "offline enabled": true,
     "linked form and data server": {
-        "name": "KoBoCAT",
-        "server url": "kf.kobotoolbox.org",
-        "api key": "enketorules",
+        "name": "Belcam",
+        "server url": "",
+        "api key": "Afa5azf478xwcFa45w1Sa47Tc",
         "legacy formhub": false,
         "authentication": {
             "managed by enketo": true,
@@ -13,7 +13,7 @@
             "external login url that sets cookie": "http://example.com/login?return={RETURNURL}"
         }
     },
-    "encryption key": "s0m3v3rys3cr3tk3y",
+    "encryption key": "s0m3v3rys3czafemoihoimyaefzr3tk3y",
     "default theme": "kobo",
     "log": {
         "submissions": false
@@ -36,7 +36,7 @@
     "redis": {
         "main": {
             "host": "127.0.0.1",
-            "port": "6379",
+            "port": "6381",
             "password": null
         },
         "cache": {

@@ -16,7 +16,7 @@ var $ = require( 'jquery' );
 var form;
 var formSelector;
 var formData;
-var $formprogress;  
+var $formprogress;
 
 function init( selector, data ) {
     var advice;

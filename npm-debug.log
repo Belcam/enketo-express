@@ -1,0 +1,110 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'grunt-mocha-test' ]
+2 info using npm@2.14.12
+3 info using node@v4.2.6
+4 verbose install initial load of /home/ubuntu/enketo-express/package.json
+5 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/aliasify/package.json
+6 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/basic-auth/package.json
+7 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/body-parser/package.json
+8 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/bristol/package.json
+9 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/busboy/package.json
+10 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/compression/package.json
+11 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/cookie-parser/package.json
+12 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/csurf/package.json
+13 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/db.js/package.json
+14 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/debug/package.json
+15 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/enketo-core/package.json
+16 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/enketo-transformer/package.json
+17 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/express/package.json
+18 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt/package.json
+19 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-browserify/package.json
+20 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-concurrent/package.json
+21 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-contrib-jshint/package.json
+22 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-contrib-uglify/package.json
+23 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-contrib-watch/package.json
+24 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-env/package.json
+25 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-jsbeautifier/package.json
+26 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-karma/package.json
+27 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-nodemon/package.json
+28 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-sass/package.json
+29 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/grunt-shell/package.json
+30 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/i18next/package.json
+31 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/i18next-client/package.json
+32 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/jade/package.json
+33 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/jquery/package.json
+34 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/jszip/package.json
+35 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/jwt-simple/package.json
+36 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/karma/package.json
+37 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/libxslt/package.json
+38 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/lie/package.json
+39 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/load-grunt-tasks/package.json
+40 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/lodash/package.json
+41 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/morgan/package.json
+42 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/papaparse/package.json
+43 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/redis/package.json
+44 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/request/package.json
+45 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/serve-favicon/package.json
+46 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/time-grunt/package.json
+47 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/vex-js/package.json
+48 verbose installManyTop reading scoped package data from /home/ubuntu/enketo-express/node_modules/xml2js/package.json
+49 info package.json grunt-contrib-watch@0.6.1 No license field.
+50 info package.json grunt-jsbeautifier@0.2.10 No license field.
+51 info package.json busboy@0.2.12 No license field.
+52 info package.json db.js@0.10.2 No license field.
+53 info package.json grunt@0.4.5 No license field.
+54 info package.json grunt-browserify@4.0.1 No license field.
+55 info package.json grunt-env@0.4.4 No license field.
+56 info package.json i18next@1.10.6 No license field.
+57 info package.json jszip@2.5.0 license should be a valid SPDX license expression
+58 info package.json papaparse@4.1.2 No license field.
+59 verbose readDependencies loading dependencies from /home/ubuntu/enketo-express/package.json
+60 silly cache add args [ 'grunt-mocha-test', null ]
+61 verbose cache add spec grunt-mocha-test
+62 silly cache add parsed spec Result {
+62 silly cache add   raw: 'grunt-mocha-test',
+62 silly cache add   scope: null,
+62 silly cache add   name: 'grunt-mocha-test',
+62 silly cache add   rawSpec: '',
+62 silly cache add   spec: 'latest',
+62 silly cache add   type: 'tag' }
+63 silly addNamed grunt-mocha-test@latest
+64 verbose addNamed "latest" is being treated as a dist-tag for grunt-mocha-test
+65 info addNameTag [ 'grunt-mocha-test', 'latest' ]
+66 silly mapToRegistry name grunt-mocha-test
+67 silly mapToRegistry using default registry
+68 silly mapToRegistry registry https://registry.npmjs.org/
+69 silly mapToRegistry uri https://registry.npmjs.org/grunt-mocha-test
+70 verbose addNameTag registry:https://registry.npmjs.org/grunt-mocha-test not in flight; fetching
+71 verbose request uri https://registry.npmjs.org/grunt-mocha-test
+72 verbose request no auth needed
+73 info attempt registry request try #1 at 13:10:15
+74 verbose request id 87abe4a8dbde602c
+75 http request GET https://registry.npmjs.org/grunt-mocha-test
+76 info retry will retry, error on last attempt: Error: connect ETIMEDOUT 23.235.43.162:443
+77 info attempt registry request try #2 at 13:12:32
+78 http request GET https://registry.npmjs.org/grunt-mocha-test
+79 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+80 info attempt registry request try #3 at 13:13:52
+81 http request GET https://registry.npmjs.org/grunt-mocha-test
+82 verbose stack Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+82 verbose stack     at errnoException (dns.js:26:10)
+82 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:77:26)
+83 verbose cwd /home/ubuntu/enketo-express
+84 error Linux 3.19.0-47-generic
+85 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "grunt-mocha-test"
+86 error node v4.2.6
+87 error npm  v2.14.12
+88 error code ENOTFOUND
+89 error errno ENOTFOUND
+90 error syscall getaddrinfo
+91 error network getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+91 error network This is most likely not a problem with npm itself
+91 error network and is related to network connectivity.
+91 error network In most cases you are behind a proxy or have bad network settings.
+91 error network
+91 error network If you are behind a proxy, please make sure that the
+91 error network 'proxy' config is set properly.  See: 'npm help config'
+92 verbose exit [ 1, true ]

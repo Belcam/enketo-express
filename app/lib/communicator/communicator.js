@@ -37,7 +37,6 @@ function getXFormInfo( survey ) {
  * @return {[type]}         promise
  */
 function getXForm( survey ) {
-
     return _request( {
         url: survey.info.downloadUrl,
         auth: survey.credentials,

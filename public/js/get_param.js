@@ -27,4 +27,4 @@ setTimeout(function(){
 		pid_elem[0].value=pid;
 	}
 		
-}, 2000);
+}, 500);

@@ -16,28 +16,35 @@ var ready = function ( fn ) {
 
     // Otherwise, wait until document is loaded
     // The document has finished loading and the document has been parsed but sub-resources such as images, stylesheets and frames are still loading. The state indicates that the DOMContentLoaded event has been fired.
-    // document.addEventListener( 'interactive', fn, false );
+    //document.addEventListener( 'interactive', fn, false );
 
     // Alternative: The document and all sub-resources have finished loading. The state indicates that the load event has been fired.
     //document.addEventListener( 'complete', fn, false );
-    document.addEventListener( 'DOMContentLoaded', fn, false );
+    //document.addEventListener( 'DOMContentLoaded', fn, false );
+    document.addEventListener( 'enketo_loaded_form', fn, false );
 
 };
 
 ready( function() {
+console.log = console.__proto__.log;
 
 	var params = window.location.search.substring(1).split('&');
+console.log(params);
         if(params.length <= 0)
           return;
 	for(var i = 0; i < params.length; ++i) {
 		var param = params[i].split('=');
 		var key = param[0];
 		var val = decodeURIComponent(param[1]);
+console.log('/'+key.replace(/_/g, '/'));
 		var elem = document.getElementsByName('/'+key.replace(/_/g, '/'));
+console.log(elem);
 		if(elem && elem.length) {
 			elem[0].value = val;
+			elem[0].setAttribute("disabled", "disabled");
 		}
 	}
+console.log("D");
 });
 //}, 500);
 	/*var param = 'uid';

@@ -191,6 +191,8 @@ function _init( formParts ) {
 
                     formParts.$form = $form;
                     resolve( formParts );
+                    var evt = new CustomEvent('enketo_loaded_form', {});
+                    document.dispatchEvent(evt);
                 } );
             } );
         } else if ( formParts ) {

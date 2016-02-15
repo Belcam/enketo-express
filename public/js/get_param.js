@@ -26,25 +26,22 @@ var ready = function ( fn ) {
 };
 
 ready( function() {
-console.log = console.__proto__.log;
+//console.log = console.__proto__.log;
 
 	var params = window.location.search.substring(1).split('&');
-console.log(params);
+//console.log(params);
         if(params.length <= 0)
           return;
 	for(var i = 0; i < params.length; ++i) {
 		var param = params[i].split('=');
 		var key = param[0];
 		var val = decodeURIComponent(param[1]);
-console.log('/'+key.replace(/_/g, '/'));
 		var elem = document.getElementsByName('/'+key.replace(/_/g, '/'));
-console.log(elem);
 		if(elem && elem.length) {
 			elem[0].value = val;
 			elem[0].setAttribute("disabled", "disabled");
 		}
 	}
-console.log("D");
 });
 //}, 500);
 	/*var param = 'uid';

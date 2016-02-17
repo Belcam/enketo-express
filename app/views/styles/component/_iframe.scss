@@ -6,6 +6,31 @@
     .form-header__button--homescreen {
         display: none;
     }
+    .form-footer .enketo-power {
+        position: static;
+    }
+    .form-logo {
+        display: none;
+    }
+    &.shadowOverflowTop::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: -1em;
+        right: -1em;
+        height: 0;
+        z-index: 1;
+        box-shadow: 0 2px 9px 2px #000;
+    }
+    &.shadowOverflowBottom::after {
+        content: "";
+        position: fixed;
+        bottom: 0;
+        left: -1em;
+        right: -1em;
+        height: 0;
+        box-shadow: 0 3px 15px 3px #000;
+    }
 }
 
 // TODO: remove?

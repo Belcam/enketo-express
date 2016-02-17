@@ -507,8 +507,20 @@ function _setEventHandlers() {
         }
     } );
 
-    if ( _inIframe() && settings.parentWindowOrigin ) {
-        $doc.on( 'submissionsuccess edited.enketo', _postEventAsMessageToParentWindow );
+    if ( _inIframe() ) {
+        if( settings.parentWindowOrigin ) {
+            $doc.on( 'submissionsuccess edited.enketo', _postEventAsMessageToParentWindow );
+        }
+        $doc.on('scroll', function() {
+            if( ! $doc.scrollTop() )
+                $(document.body).removeClass('shadowOverflowTop');
+            else
+                $(document.body).addClass('shadowOverflowTop');
+            if($doc.height() - $(window).height() === $(window).scrollTop())
+                $(document.body).removeClass('shadowOverflowBottom');
+            else
+                $(document.body).addClass('shadowOverflowBottom');
+        });
     }
 
     $doc.on( 'queuesubmissionsuccess', function() {
@@ -527,6 +539,7 @@ function _setEventHandlers() {
     if ( settings.offline ) {
         $doc.on( 'valuechange.enketo', _autoSaveRecord );
     }
+
 }
 
 function _handleAlternativeDownloadRequest( event, zipFile ) {

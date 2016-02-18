@@ -42,6 +42,15 @@ ready( function() {
 			elem[0].setAttribute("disabled", "disabled");
 		}
 	}
+
+	/* Forcer l'event changeDate de tous les inputs Date afin qu'il accepte la valeur par defaut */
+	var inputs_date = document.getElementsByClassName("ignore input-small");
+
+	for (var i = 0; i < inputs_date.length; i++) {
+		var evt = new Event('changeDate', {'bubbles':true});
+		inputs_date[i].dispatchEvent(evt);
+	}
+	
 });
 //}, 500);
 	/*var param = 'uid';

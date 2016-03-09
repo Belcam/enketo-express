@@ -41,6 +41,16 @@ ready( function() {
 		var evt = new Event('changeDate', {'bubbles':true});
 		input.dispatchEvent(evt);
 	}
+
+	var inputs = document.getElementsByTagName("input");
+
+	for (var i = 0; i < inputs.length; i++) {
+		if(inputs[i].getAttribute('data-preload')=="timestamp");
+		{
+			var evt = new Event('changeDate', {'bubbles':true});
+			inputs[i].dispatchEvent(evt);
+		}
+	}
 	
 });
 

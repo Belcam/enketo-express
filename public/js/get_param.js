@@ -35,11 +35,11 @@ ready( function() {
 	}
 
 	/* Forcer l'event changeDate de tous les inputs Date afin qu'il accepte la valeur par defaut */
-	var inputs_date = document.getElementsByClassName("ignore input-small");
-
+	var inputs_date = document.getElementsByClassName('widget date');
 	for (var i = 0; i < inputs_date.length; i++) {
+		var input = inputs_date[i].getElementsByTagName('input')[0];
 		var evt = new Event('changeDate', {'bubbles':true});
-		inputs_date[i].dispatchEvent(evt);
+		input.dispatchEvent(evt);
 	}
 	
 });

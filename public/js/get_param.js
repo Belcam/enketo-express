@@ -35,22 +35,72 @@ ready( function() {
 	}
 
 	/* Forcer l'event changeDate de tous les inputs Date afin qu'il accepte la valeur par defaut */
-	var inputs_date = document.getElementsByClassName("ignore input-small");
 
-	for (var i = 0; i < inputs_date.length; i++) {
-		var evt = new Event('changeDate', {'bubbles':true});
-		inputs_date[i].dispatchEvent(evt);
-	}
+	var inputs = document.getElementsByTagName('input');
 
-	var inputs = document.getElementsByTagName("input");
-
-	for (var i = 0; i < inputs.length; i++) {
-		if(inputs[i].getAttribute('data-preload')=="timestamp");
+	for (var i = 0; i < inputs.length; i++)
+	{
+		if(inputs[i].getAttribute('class')=="ignore input-small")
 		{
 			var evt = new Event('changeDate', {'bubbles':true});
+			inputs[i].disabled=false;
+			inputs[i].readOnly=false;
+
+			inputs[i].dispatchEvent(evt);
+
+			inputs[i].changeDate= function(){
+				var input_2 = document.getElementsByTagName('input');
+				var evt = new Event('changeDate', {'bubbles':true});
+				var val = this.value;
+				this.setAttribute('value',val);
+
+				for (var j = 0; j < input_2.length; j++)
+				{
+					if(input_2[j].getAttribute('class')=="ignore input-small")
+					{
+						input_2[j].disabled=false;
+						input_2[j].readOnly=false;
+						input_2[j].setAttribute('value', val);
+						input_2[j].dispatchEvent(evt);
+					}
+
+					// if(input_2[j].getAttribute('data-preload')=="timestamp")
+					// {
+					// 	var evt = new Event('changeDate', {'bubbles':true});
+					// 	input_2[j].disabled=false;
+					// 	input_2[j].readOnly=false;
+					// 	input_2[j].dispatchEvent(evt);
+					// }
+
+					if(input_2[j].getAttribute('type')=="date")
+					{
+						input_2[j].disabled=false;
+						input_2[j].readOnly=false;
+						input_2[j].setAttribute('value', val);
+						input_2[j].dispatchEvent(evt);
+					}
+				}
+			};
+
+		}
+
+		if(inputs[i].getAttribute('data-preload')=="timestamp")
+		{
+			var evt = new Event('changeDate', {'bubbles':true});
+			inputs[i].disabled=false;
+			inputs[i].readOnly=false;
 			inputs[i].dispatchEvent(evt);
 		}
-	}
-	
+
+		if(inputs[i].getAttribute('type')=="date")
+		{
+			var evt = new Event('changeDate', {'bubbles':true});
+			inputs[i].disabled=false;
+			inputs[i].readOnly=false;
+			inputs[i].dispatchEvent(evt);
+		}
+	}	
 });
+
+
 

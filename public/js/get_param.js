@@ -48,14 +48,7 @@ ready( function() {
                 input.readonly=old_ro;
 	}
 
-	/*var inputs = document.getElementsByTagName("input");
-	for (var i = 0; i < inputs.length; i++) {
-		if(inputs[i].getAttribute('data-preload')=="timestamp");
-		{
-			var evt = new Event('changeDate', {'bubbles':true});
-			inputs[i].dispatchEvent(evt);
-		}
-	}*/
-	
 });
+
+
 

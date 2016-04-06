@@ -39,18 +39,23 @@ ready( function() {
 	for (var i = 0; i < inputs_date.length; i++) {
 		var input = inputs_date[i].getElementsByTagName('input')[0];
 		var evt = new Event('changeDate', {'bubbles':true});
+                var old_dis = input.disabled;
+                var old_ro  = input.readonly;
+                input.disabled=false;
+                input.readonly=false;
 		input.dispatchEvent(evt);
+                input.disabled=old_dis;
+                input.readonly=old_ro;
 	}
 
-	var inputs = document.getElementsByTagName("input");
-
+	/*var inputs = document.getElementsByTagName("input");
 	for (var i = 0; i < inputs.length; i++) {
 		if(inputs[i].getAttribute('data-preload')=="timestamp");
 		{
 			var evt = new Event('changeDate', {'bubbles':true});
 			inputs[i].dispatchEvent(evt);
 		}
-	}
+	}*/
 	
 });
 
